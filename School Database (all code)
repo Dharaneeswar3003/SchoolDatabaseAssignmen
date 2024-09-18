@@ -1,0 +1,262 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Teacher> teachers = new ArrayList<>();
+        ArrayList<Student> students = new ArrayList<>();
+        School LordByngSecondary = new School("Lord Byng Secondary", "Point Grey", 1500);
+
+        // Print the school details
+        System.out.println("School details: \nSchool Name: " + LordByngSecondary.getSchoolName() +
+                "\nArea/Catchment: " + LordByngSecondary.getschoolArea() +
+                "\nNumber of Students: " + LordByngSecondary.getnumofStudents());
+        System.out.println("-----------------------------------------------------------------------------------------------------");
+
+        Scanner scanner = new Scanner(System.in);
+
+        for (int i = 0; i < 10; i++) {
+            String n = String.valueOf(i + 1); // n takes the place of last name
+            Student student = new Student("Student", n, 8); // Create a new Student object
+            LordByngSecondary.addStudent(student); // Add the student to the school
+            students.add(student); // Add the student to the students ArrayList
+        }
+
+        for (int i = 0; i < 3; i++) {
+            String n = String.valueOf(i + 1); // n takes the place of last name
+            Teacher teacher = new Teacher("Teacher", n, "Subject " + n); // Create a new Teacher object
+            LordByngSecondary.addTeacher(teacher); // Add the teacher to the school
+            teachers.add(teacher); // Add the teacher to teachers ArrayList
+        }
+
+        LordByngSecondary.showAllTeachers(); // Display all teachers in the school
+        System.out.println("______________________________________________________");
+        LordByngSecondary.showAllStudents(); // Display all students in the school
+        System.out.println("______________________________________________________");
+
+        // Removing two students and one teacher
+        if (students.size() >= 2) {
+            LordByngSecondary.deleteStudent(students.get(0)); // Remove a student from the school
+            students.remove(0); // Remove the student from the local students ArrayList (optional)
+            LordByngSecondary.deleteStudent(students.get(0)); // Remove another student from the school
+            students.remove(0); // Remove the student from the local students ArrayList (optional)
+        }
+
+        System.out.println("School Database after removing two students and one teacher:");
+        System.out.println("______________________________________________________");
+
+        if (teachers.size() >= 1) {
+            LordByngSecondary.deleteTeacher(teachers.get(0)); // Remove a teacher from the school
+            teachers.remove(0); // Remove the teacher from the teachers ArrayList
+        }
+
+        LordByngSecondary.showAllTeachers(); // Display remaining teachers in the school
+        System.out.println("______________________________________________________");
+        LordByngSecondary.showAllStudents(); // Display remaining students in the school
+    }
+}
+
+
+
+
+import java.util.ArrayList;
+
+public class School {
+    private ArrayList<Teacher> teachers;
+    private ArrayList<Student> students;
+    private String schoolName;
+    private String schoolArea;
+    private int numofStudents;
+
+    //New school class contructor...
+    public School(String schoolName, String schoolArea, int numofStudents) {
+        this.schoolName = schoolName;
+        this.schoolArea = schoolArea;
+        this.numofStudents = numofStudents;
+        teachers = new ArrayList<>();
+        students = new ArrayList<>();
+    }
+
+    // Getters and setters...
+    public ArrayList<Teacher> getTeachers() {
+        return teachers;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+    public int getnumofStudents() {
+        return numofStudents;
+    }
+
+    public void setnumofStudents(int numofStudents) {
+        this.numofStudents = numofStudents;
+    }
+
+    public String getschoolArea() {
+        return schoolArea;
+    }
+
+    public void setschoolArea(String schoolArea) {
+        this.schoolArea = schoolArea;
+    }
+
+    // Method to add a teacher...
+    public void addTeacher(Teacher teacher) {
+        teachers.add(teacher);
+    }
+    // Method to add a student..
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+    // Method to remove a teacher...
+    public void deleteTeacher(Teacher teacher) {
+        teachers.remove(teacher);
+    }
+    // Method to remove a student...
+    public void deleteStudent(Student student) {
+        students.remove(student);
+    }
+    // Method to show all teachers...
+    public void showAllTeachers() {
+        for (Teacher teacher : teachers) {
+            System.out.println(teacher);
+        }
+    }
+    // Method to show all students...
+    public void showAllStudents() {
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+}
+
+
+
+public class Student {
+    private String firstName;
+    private String lastName;
+    private int grade;
+    private int studentNumber;
+    private static int nextStudentNumber = 1;
+
+    //Student class constructor...
+    public Student(String firstName, String lastName, int grade) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.grade = grade;
+        this.studentNumber = nextStudentNumber++;
+    }
+
+    // Getters and setters for Student fields
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        if (grade >= 1 && grade <= 13) {
+            this.grade = grade;
+        } else {
+            System.out.println("Not a valid grade");
+        }
+    }
+
+    public int getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(int i){
+        if(!(i >= 10000000) && !(i<1000000)){
+            studentNumber = i;
+        }else{
+            System.out.println("Not a valid student ID");
+        }
+    }
+
+    //To-String method...
+
+    @Override
+    public String toString() {
+        return "Name: " + firstName + " " + lastName + "; Grade: " + grade + "; Student Number: " + studentNumber;
+    }
+}
+
+
+
+public class Teacher {
+    private String firstName;
+    private String lastName;
+    private String subject;
+
+    //teacher class constructor...
+    public Teacher(String firstName, String lastName, String subject) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.subject = subject;
+    }
+
+    // Getters and setters for Teacher fields
+
+    public String getFirstName() {
+
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+
+        this.lastName = lastName;
+    }
+
+    public String getSubject() {
+
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+
+        this.subject = subject;
+    }
+
+    //To-String method...
+
+    @Override
+    public String toString() {
+        return "Name: " + firstName + " " + lastName + "; Subject: " + subject;
+    }
+}
+
